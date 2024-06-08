@@ -5,7 +5,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Erruar/RTSS-CLI">
-    <img src="RTSS-CLI/Images/WindowIcon.ico" alt="Logo" width="80" height="80">
+    <img src="RTSS-CLI/Images/WindowIcon.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Saku RTSS CLI</h3>
