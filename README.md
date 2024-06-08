@@ -49,7 +49,7 @@ RTSS CLI is a command-line application designed to simplify the process of chang
 ### Installation
 
 1. Clone the repository:
-    ```bash
+    ```
     git clone https://github.com/Erruar/RTSS-CLI.git
     ```
 2. Open the project in Visual Studio.
@@ -60,15 +60,15 @@ RTSS CLI is a command-line application designed to simplify the process of chang
 Run the application from the command line with the necessary arguments to customize the RTSS OSD. Here are some example commands:
 <h1 align="center">Set custom text, position, color</h1>
 <img src="https://github.com/Erruar/RTSS-CLI/blob/main/Images/MultipleStrings.png"></img> 
-- **Set custom text, position, color:**
-    ```bash
+- <strong>Set custom text, position, color:</strong>
+    ```
     RTSS_CLI.exe --text "Your custom text"
     ``` 
 <br />
 <h1 align="center">Clear OSD</h1>
 <img src="https://github.com/Erruar/RTSS-CLI/blob/main/Images/Clear.png"></img> 
-- **Clear OSD:**
-    ```bash
+- <strong>Clear OSD:</strong>
+    ```
     RTSS_CLI.exe --reset
     ```
 
