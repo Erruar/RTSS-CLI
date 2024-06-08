@@ -11,7 +11,7 @@
   <h3 align="center">Saku RTSS CLI</h3>
 
   <p align="center">
-    An awesome laptop overclock utility for those who want real performance!
+    Now OSD is a simple task!
     <br />
     <a href="https://github.com/Erruar/RTSS-CLI/releases"><strong>Explore the releases »</strong></a>
     <br />  
