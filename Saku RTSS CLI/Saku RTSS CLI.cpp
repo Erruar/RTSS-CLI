@@ -65,7 +65,7 @@ static void printUsage(const char* programName) {
     << "\n"
     << "\n"
     << "About\n"
-    << "Saku Riva Tuner Static Server CLI Application - v1.0.0\n"
+    << "Saku Riva Tuner Statistics Server CLI Application - v1.0.0\n"
     << "@ Serzhik Sakurazhima 2024\n" 
 		<< std::endl;
 }
