@@ -24,7 +24,7 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://github.com/Erruar/RTSS-CLI/blob/master/Images/HelpWindow.png)
+[![Product Name Screen Shot][product-screenshot]](https://github.com/Erruar/RTSS-CLI/blob/main/Images/HelpWindow.png)
 
 RTSS CLI is a command-line application designed to simplify the process of changing text in the On-Screen Display (OSD) of Riva Tuner Statistics Server (RTSS). The RTSS API is originally written in C++, making it extremely difficult or even impossible to integrate into projects that use other programming languages. This application bridges that gap, enabling developers to easily add support for displaying their metrics during gameplay using RTSS, regardless of their project's programming language.
 
@@ -88,10 +88,10 @@ Special thanks to the developers of Riva Tuner Statistics Server for providing a
 
 Feel free to copy, modify, and distribute this project in accordance with the terms of the license. Enjoy using RTSS CLI for all your OSD customization needs!
 
-[product-screenshot]: https://github.com/Erruar/RTSS-CLI/blob/master/Images/HelpWindow.png
+[product-screenshot]: https://github.com/Erruar/RTSS-CLI/blob/main/Images/HelpWindow.png
 [discord-shield]: https://img.shields.io/badge/Join%20our-discord-%23ff7f50?style=for-the-badge&logo=discord&logoColor=%23ff7f50
 [discord-url]: https://discord.gg/WzgsFvgTuh
 [donalerts-shield]: https://img.shields.io/badge/Support%20me-DonAlerts-%23f13a13?style=for-the-badge&logo=disqus&logoColor=%23f13a13
 [donalerts-url]: https://www.donationalerts.com/r/RubyTrack
 [license-shield]: https://img.shields.io/badge/LICENSE%20-GPL-%230ff99C?style=for-the-badge
-[license-url]: https://github.com/Erruar/RTSS-CLI/blob/master/LICENSE.md
+[license-url]: https://github.com/Erruar/RTSS-CLI/blob/main/LICENSE.md
