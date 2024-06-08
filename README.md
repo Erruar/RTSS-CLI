@@ -59,12 +59,12 @@ Run the application from the command line with the necessary arguments to custom
 <h1 align="center">Set custom text, position, color</h1>
 <img src="https://github.com/Erruar/RTSS-CLI/blob/main/Images/MultipleStrings.png"></img> 
 <strong>Set custom text, position, color:</strong>
-`RTSS_CLI.exe --text "Your custom text"`
+"Saku RTSS CLI.exe" --text "Your custom text"
 <br />
 <h1 align="center">Clear OSD</h1>
 <img src="https://github.com/Erruar/RTSS-CLI/blob/main/Images/Clear.png"></img> 
 <strong>Clear OSD:</strong>
-`RTSS_CLI.exe --reset`
+"Saku RTSS CLI.exe" --reset
 
 ### Integration
 
@@ -81,7 +81,15 @@ Contributions are welcome!
 ## Acknowledgements
 
 Special thanks to the developers of Riva Tuner Statistics Server for providing a robust API for OSD.
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
 
+1. [Fork the Project](https://github.com/Erruar/RTSS-CLI/fork)
+2. Create your Feature Branch 
+3. Commit your Changes in your fork
+4. Push to the Branch 
+5. [Open a Pull Request](https://github.com/Erruar/RTSS-CLI/pulls)
+6. Wait for acceptiong or rejecting!
 ---
 
 Feel free to copy, modify, and distribute this project in accordance with the terms of the license. Enjoy using RTSS CLI for all your OSD customization needs!
