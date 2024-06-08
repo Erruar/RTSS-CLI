@@ -48,7 +48,7 @@ RTSS CLI is a command-line application designed to simplify the process of chang
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/RTSS-CLI.git
+    git clone https://github.com/Erruar/RTSS-CLI.git
     ```
 2. Open the project in Visual Studio.
 3. Build the solution.
