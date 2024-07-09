@@ -70,6 +70,119 @@ Run the application from the command line with the necessary arguments to custom
 
 Integrate the RTSS CLI into your project by invoking the executable with the appropriate arguments from within your code. This makes it easy to add RTSS support to any application, regardless of the programming language used.
 
+### How to integrate it in C#?
+You can use the Process start (Process.StartInfo) for .exe but it will be better if you using the .dll import. It fill be faster up to 5 times.
+To integrate the .dll in your C# app you need:
+1. Download the SakuRTSSCLI.dll and put it in main folder of your C# project, like that
+
+![image](https://github.com/Erruar/RTSS-CLI/assets/105001030/322c8dc7-ba43-4863-8fa5-25812d6fa2ae)
+
+2. Right click on it and press ALT+Enter to open file properties menu.
+
+![image](https://github.com/Erruar/RTSS-CLI/assets/105001030/e006ea41-9a6c-494d-a360-0f157f1b68ce)
+
+3. Select **Build action: None** and **Copy to output directory: Copy always**
+4. Create any class (.cs) file in any project folder or root. Name it whatever you want
+5. Set the class code like that:
+```cs
+public static partial class RTSSHandler
+{
+    private const string DllName = "SakuRTSSCLI.dll";  //The name of .dll in output directory
+    public static void ChangeOSDText(string text) //Use RTSSHandler.ChangeOSDText("Any your Text"); in any class to show "Any your Text" in OSD.
+    { 
+        displayText(text); 
+    }
+    public static void ResetOSDText() //Use RTSSHandler.ResetOSDText(); in any class to remove any text by SakuRTSSCLI in OSD.
+    {
+        _ = ReleaseOSD(); 
+    }
+
+    [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+    public static extern void displayText(string text);
+
+    [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+    public static extern int Refresh();
+
+    [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+    public static extern uint EmbedGraph(uint dwOffset, float[] lpBuffer, uint dwBufferPos, uint dwBufferSize, int dwWidth, int dwHeight, int dwMargin, float fltMin, float fltMax, uint dwFlags);
+
+    [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+    public static extern uint GetClientsNum();
+
+    [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+    public static extern uint GetSharedMemoryVersion();
+
+    [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+    public static extern bool UpdateOSD(string lpText);
+
+    [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+    public static extern int ReleaseOSD(); 
+}
+```
+
+### How to integrate it in Python?
+```py
+import ctypes
+from ctypes import c_uint, c_int, c_bool, c_float, c_char_p, POINTER
+
+# Loading DLL
+dll = ctypes.CDLL('SakuRTSSCLI.dll') 
+
+dll.displayText.argtypes = [c_char_p]
+dll.displayText.restype = None
+
+dll.Refresh.argtypes = []
+dll.Refresh.restype = c_int
+
+dll.EmbedGraph.argtypes = [c_uint, POINTER(c_float), c_uint, c_uint, c_int, c_int, c_int, c_float, c_float, c_uint]
+dll.EmbedGraph.restype = c_uint
+
+dll.GetClientsNum.argtypes = []
+dll.GetClientsNum.restype = c_uint
+
+dll.GetSharedMemoryVersion.argtypes = []
+dll.GetSharedMemoryVersion.restype = c_uint
+
+dll.UpdateOSD.argtypes = [c_char_p]
+dll.UpdateOSD.restype = c_bool
+
+dll.ReleaseOSD.argtypes = []
+dll.ReleaseOSD.restype = c_int 
+
+# Defining all functions
+def change_osd_text(text):
+    dll.displayText(text.encode('utf-8'))
+
+def reset_osd_text():
+    dll.ReleaseOSD()
+
+def refresh():
+    return dll.Refresh()
+
+def embed_graph(dw_offset, buffer, dw_buffer_pos, dw_buffer_size, dw_width, dw_height, dw_margin, flt_min, flt_max, dw_flags):
+    float_array_type = c_float * len(buffer)
+    lp_buffer = float_array_type(*buffer)
+    return dll.EmbedGraph(dw_offset, lp_buffer, dw_buffer_pos, dw_buffer_size, dw_width, dw_height, dw_margin, flt_min, flt_max, dw_flags)
+
+def get_clients_num():
+    return dll.GetClientsNum()
+
+def get_shared_memory_version():
+    return dll.GetSharedMemoryVersion()
+
+def update_osd(text):
+    return dll.UpdateOSD(text.encode('utf-8'))
+
+def release_osd():
+    return dll.ReleaseOSD()
+
+# EXAMPLES
+if __name__ == "__main__":
+    change_osd_text("Any your Text")
+    reset_osd_text() 
+```
+**Make sure** that SakuRTSSCLI.dll **IN FOLDER** WITH PYTHON FILE!
+
 ### License
 
 This project is licensed under the GPL-3 License. See the [LICENSE](LICENSE) file for details.
