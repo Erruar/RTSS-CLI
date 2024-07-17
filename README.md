@@ -66,12 +66,12 @@ Run the application from the command line with the necessary arguments to custom
 <strong>Clear OSD:</strong>
 "Saku RTSS CLI.exe" --reset
 
-### Integration
+# Integration
 
 Integrate the RTSS CLI into your project by invoking the executable with the appropriate arguments from within your code. This makes it easy to add RTSS support to any application, regardless of the programming language used.
 
-### How to integrate it in C#?
-You can use the Process start (Process.StartInfo) for .exe but it will be better if you using the .dll import. It fill be faster up to 5 times.
+## How to integrate it in C#?
+You can use the Process start (Process.StartInfo) for .exe but it will be better if you using the .dll import. It will be faster up to 5 times.
 To integrate the .dll in your C# app you need:
 1. Download the SakuRTSSCLI.dll and put it in main folder of your C# project, like that
 
@@ -120,7 +120,7 @@ public static partial class RTSSHandler
 }
 ```
 
-### How to integrate it in Python?
+## How to integrate it in Python?
 ```py
 import ctypes
 from ctypes import c_uint, c_int, c_bool, c_float, c_char_p, POINTER
