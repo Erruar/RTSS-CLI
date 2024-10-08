@@ -53,6 +53,10 @@ RTSS CLI is a command-line application designed to simplify the process of chang
 2. Open the project in Visual Studio.
 3. Build the solution.
 
+#### If something went wrong
+1. Download VisualCPPDLLs.zip archive from release
+2. Unpack dlls in it near main app
+
 ### Usage
 
 Run the application from the command line with the necessary arguments to customize the RTSS OSD. Here are some example commands:
