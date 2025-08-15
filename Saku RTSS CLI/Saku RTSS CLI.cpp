@@ -1,4 +1,4 @@
-﻿// Saku RTSS CLI.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
+// Saku RTSS CLI.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
 //
 
 #include <iostream>
@@ -6,16 +6,9 @@
 #include "osd_manager.h" 
 #include <wtypes.h>
 #include "../../../../../../Program Files (x86)/RivaTuner Statistics Server/SDK/Include/RTSSSharedMemory.h" 
+ 
 
-OSDManager::OSDManager() {
-     
-}
-
-OSDManager::~OSDManager() {
-     
-}
-
-void OSDManager::displayText(const char* text) {
+EXP void CALL displayText(const char* text) {
 	if (text != "") {
 		std::string modifiedText(text); 
 		std::string searchStr = "<Br>"; 
@@ -27,8 +20,8 @@ void OSDManager::displayText(const char* text) {
 			modifiedText.replace(pos, searchStr.length(), replaceStr); 
 			pos += replaceStr.length(); 
 		} 
-		GetSharedMemoryVersion();
-		GetClientsNum(); 
+		/*GetSharedMemoryVersion();
+		GetClientsNum(); */
 		UpdateOSD(modifiedText.c_str()); 
 		std::cout << "New text set successfully!\n" << std::endl;
 		//Refresh();
@@ -39,6 +32,67 @@ void OSDManager::displayText(const char* text) {
         std::cerr << "Failed to create OSD instance." << std::endl;
     }
 } 
+// Новые функции с указателем и длиной
+EXP BOOL CALL UpdateOSDSpan(const char* lpText, int length)
+{
+	if (lpText == nullptr || length <= 0) return FALSE;
+
+	// Создаём буфер и сразу заменяем <Br> на \n
+	char* tempBuffer = new(std::nothrow) char[length + 1];
+	if (tempBuffer == nullptr) return FALSE;
+
+	// Копируем с заменой <Br> на \n
+	int writePos = 0;
+	for (int i = 0; i < length; )
+	{
+		// Проверяем на <Br>
+		if (i + 3 < length &&
+			lpText[i] == '<' && lpText[i + 1] == 'B' &&
+			lpText[i + 2] == 'r' && lpText[i + 3] == '>')
+		{
+			tempBuffer[writePos++] = '\n';
+			i += 4;
+		}
+		else
+		{
+			tempBuffer[writePos++] = lpText[i++];
+		}
+	}
+	tempBuffer[writePos] = '\0';
+
+	BOOL result = UpdateOSD(tempBuffer);
+	delete[] tempBuffer;
+	return result;
+}
+
+EXP void CALL displayTextSpan(const char* text, int length)
+{
+	if (text == nullptr || length <= 0) return;
+
+	// Аналогично
+	char* tempBuffer = new(std::nothrow) char[length + 1];
+	if (tempBuffer == nullptr) return;
+
+	int writePos = 0;
+	for (int i = 0; i < length; )
+	{
+		if (i + 3 < length &&
+			text[i] == '<' && text[i + 1] == 'B' &&
+			text[i + 2] == 'r' && text[i + 3] == '>')
+		{
+			tempBuffer[writePos++] = '\n';
+			i += 4;
+		}
+		else
+		{
+			tempBuffer[writePos++] = text[i++];
+		}
+	}
+	tempBuffer[writePos] = '\0';
+
+	displayText(tempBuffer);
+	delete[] tempBuffer;
+}
 
 static void printUsage(const char* programName) {
     std::cout << "Usage: \"" << programName << "\" --text \"Your text here\"\n" 
@@ -65,7 +119,7 @@ static void printUsage(const char* programName) {
     << "\n"
     << "\n"
     << "About\n"
-    << "Saku Riva Tuner Statistics Server CLI Application - v1.0.0\n"
+    << "Saku Riva Tuner Statistics Server CLI Application - v1.0.3\n"
     << "@ Serzhik Sakurazhima 2024\n" 
 		<< std::endl;
 }
@@ -73,8 +127,7 @@ static void printUsage(const char* programName) {
 int main(int argc, char* argv[]) {
     if (argc != 3) {
 		if (argc == 2 && std::string(argv[1]) == "--reset") {
-			OSDManager osdManager; 
-			osdManager.OnDestroy(); 
+			OnDestroy(); 
 			std::cout << "OSD reset successfully." << std::endl;
 			return 0;
 		}
@@ -87,8 +140,7 @@ int main(int argc, char* argv[]) {
     std::string arg = argv[1];
     if (arg == "--text") { 
 
-        OSDManager osdManager;
-        osdManager.displayText(argv[2]);
+        displayText(argv[2]);
     }
     else { 
         printUsage(argv[0]);
@@ -98,12 +150,12 @@ int main(int argc, char* argv[]) {
     return 0;
 } 
 /////////////////////////////////////////////////////////////////////////////
-void OSDManager::OnDestroy()
+void OnDestroy()
 {   
 	ReleaseOSD(); 
 }
 /////////////////////////////////////////////////////////////////////////////
-DWORD OSDManager::GetSharedMemoryVersion()
+EXP DWORD CALL GetSharedMemoryVersion()
 {
 	DWORD dwResult = 0;
 
@@ -129,7 +181,7 @@ DWORD OSDManager::GetSharedMemoryVersion()
 	return dwResult;
 }
 /////////////////////////////////////////////////////////////////////////////
-DWORD OSDManager::EmbedGraph(DWORD dwOffset, FLOAT* lpBuffer, DWORD dwBufferPos, DWORD dwBufferSize, LONG dwWidth, LONG dwHeight, LONG dwMargin, FLOAT fltMin, FLOAT fltMax, DWORD dwFlags)
+EXP DWORD CALL EmbedGraph(DWORD dwOffset, FLOAT* lpBuffer, DWORD dwBufferPos, DWORD dwBufferSize, LONG dwWidth, LONG dwHeight, LONG dwMargin, FLOAT fltMin, FLOAT fltMax, DWORD dwFlags)
 {
 	DWORD dwResult = 0;
 
@@ -222,8 +274,13 @@ DWORD OSDManager::EmbedGraph(DWORD dwOffset, FLOAT* lpBuffer, DWORD dwBufferPos,
 	return dwResult;
 }
 /////////////////////////////////////////////////////////////////////////////
-BOOL OSDManager::UpdateOSD(LPCSTR lpText)
+EXP BOOL CALL UpdateOSD(LPCSTR lpText)
 {
+	if (!m_bIsInitialized) {
+		GetSharedMemoryVersion();
+		GetClientsNum();
+		m_bIsInitialized = true;
+	}
 	BOOL bResult = FALSE;
 
 	HANDLE hMapFile = OpenFileMapping(FILE_MAP_ALL_ACCESS, FALSE, L"RTSSSharedMemoryV2");
@@ -303,7 +360,7 @@ BOOL OSDManager::UpdateOSD(LPCSTR lpText)
 	return bResult;
 }
 /////////////////////////////////////////////////////////////////////////////
-void OSDManager::ReleaseOSD()
+EXP int CALL ReleaseOSD()
 {
 	HANDLE hMapFile = OpenFileMapping(FILE_MAP_ALL_ACCESS, FALSE, L"RTSSSharedMemoryV2");
 
@@ -335,9 +392,10 @@ void OSDManager::ReleaseOSD()
 
 		CloseHandle(hMapFile);
 	}
+	return 0;
 }
 /////////////////////////////////////////////////////////////////////////////
-DWORD OSDManager::GetClientsNum()
+EXP DWORD CALL GetClientsNum()
 {
 	DWORD dwClients = 0;
 
@@ -371,7 +429,7 @@ DWORD OSDManager::GetClientsNum()
 
 	return dwClients;
 } 
-void OSDManager::Refresh()
+EXP int CALL Refresh()
 {
 	//init RivaTuner Statistics Server installation path
 
@@ -494,6 +552,7 @@ void OSDManager::Refresh()
 		BOOL bResult = UpdateOSD((LPCSTR)(LPCTSTR)strOSD); 
 		//m_richEditCtrl.SetWindowText(m_strStatus);
 	}
+	return 0;
 } 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
 // Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
